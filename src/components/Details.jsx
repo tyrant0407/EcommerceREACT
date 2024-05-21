@@ -1,32 +1,29 @@
 import React, { useContext, useEffect, useState } from 'react'
-// import axios from '../utils/Axios';
-import { useParams } from 'react-router-dom';
+
+import { useNavigate, useParams } from 'react-router-dom';
 import Loading from './Loading';
 import { ProductContext } from '../utils/Context';
 
 
 const Details = () => {
+    const navigate = useNavigate();
    const [products,setProducts] = useContext(ProductContext);   
    const [product, setproduct] = useState(null)
     const {id} = useParams();
    
 
-    // const getsingleproduct = async()=>{
-    //     try {
-            
-    //         const{data} = await axios.get(`/products/${id}`);
-    //         setproduct(data)
-    //     console.log(data)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
     useEffect(() => {
         if(!product){
             setproduct(products.filter((p)=>p.id==id)[0])
         }
-    // getsingleproduct();
-    },[])
+    },[]);
+
+    const ProductDeleteHandler =(id)=>{
+        const FilteredProducts = products.filter((p)=>p.id !== id);
+        setProducts(FilteredProducts);
+        localStorage.setItem("products",JSON.stringify(FilteredProducts));
+        navigate('/')
+    }
     
 
   return product ? (
@@ -40,10 +37,10 @@ const Details = () => {
                 </div>
                 <div className="flex -mx-2 mb-4">
                     <div className="w-1/2 px-2">
-                        <button className="w-full bg-white text-black py-2 px-4 border font-bold hover:bg-red-300 dark:hover:bg-black-700">Edit</button>
+                        <button className="edit w-full bg-white text-black py-2 px-4 border font-bold hover:bg-red-300 dark:hover:bg-black-700">Edit</button>
                     </div>
                     <div className="w-1/2 px-2">
-                        <button className="w-full bg-white  text-black-800 border  dark:text-black py-2 px-4  font-bold hover:bg-red-300 dark:hover:bg-black-600">Delete</button>
+                        <button onClick={()=>ProductDeleteHandler(product.id)} className="delete w-full bg-white  text-black-800 border  dark:text-black py-2 px-4  font-bold hover:bg-red-300 dark:hover:bg-black-600">Delete</button>
                     </div>
                 </div>
             </div>

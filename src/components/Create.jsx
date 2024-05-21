@@ -3,12 +3,14 @@ import { useState,useContext } from "react"
 import { ProductContext } from '../utils/Context';
 
 import { nanoid } from 'nanoid/non-secure';
+import { useNavigate } from 'react-router-dom';
 
 
 const Create = () => {
+   const navigate = useNavigate()
    const [products,setProducts] = useContext(ProductContext);
     const [title, setTitle] = useState("")
-    const [imageLink, setImageLink] = useState("")
+    const [image, setImage] = useState("")
     const [category, setCategory] = useState("")
     const [price, setPrice] = useState("")
     const [description, setDescription] = useState("")
@@ -26,27 +28,29 @@ const Create = () => {
 
     const handleForm = (e) => {
         e.preventDefault();
-        if(title.trim().length < 5 || imageLink.trim().length<5 || category.trim().length<5 || price.trim().length <1 || description.trim().length<5){
+        if(title.trim().length < 5 || image.trim().length<5 || category.trim().length<5 || price.trim().length <1 || description.trim().length<5){
             alert("Each and Every input must have atleast 4 characters");
             return;
         }
         const product = {
             id: nanoid(),
             title,
-            imageLink,
+            image,
             category,
             price,
             description
         };
         
         setProducts([...products, product]);
+        localStorage.setItem("products",JSON.stringify([...products, product]));
      
         // Reset the form fields
         setTitle("");
-        setImageLink("");
+        setImage("");
         setCategory("");
         setPrice("");
         setDescription("");
+        navigate('/')
     };
 
     return (
@@ -74,10 +78,10 @@ const Create = () => {
                             <label>
                                 <span className="text-gray-700">Image URL</span>
                                 <input 
-                                    name='imageLink' 
+                                    name='image' 
                                     type="url" 
-                                    value={imageLink}
-                                    onChange={(e) => setImageLink(e.target.value)}
+                                    value={image}
+                                    onChange={(e) => setImage(e.target.value)}
                                     className=" block w-full mt-2 px-16 py-2 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 " 
                                     placeholder="Image URL" 
                                   
