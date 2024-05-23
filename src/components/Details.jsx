@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Loading from './Loading';
 import { ProductContext } from '../utils/Context';
 
@@ -35,12 +35,12 @@ const Details = () => {
                 <div className="h-[460px] rounded-lg bg-black-300 dark:bg-black-700 mb-4">
                     <img className='w-full h-full object-contain rounded-lg' src={`${product.image}`} alt="" />
                 </div>
-                <div className="flex -mx-2 mb-4">
-                    <div className="w-1/2 px-2">
-                        <button className="edit w-full bg-white text-black py-2 px-4 border font-bold hover:bg-red-300 dark:hover:bg-black-700">Edit</button>
+                <div className="flex ml-[2.1vw]">
+                    <div className="w-1/2 px-2 mt-[1.4vh] mr-[-1vw]">
+                        <Link to={`/edit/${product.id}`} className=" bg-white text-black py-[1.4vh] px-[5vw] border font-bold hover:bg-red-300 dark:hover:bg-black-700">Edit</Link>
                     </div>
                     <div className="w-1/2 px-2">
-                        <button onClick={()=>ProductDeleteHandler(product.id)} className="delete w-full bg-white  text-black-800 border  dark:text-black py-2 px-4  font-bold hover:bg-red-300 dark:hover:bg-black-600">Delete</button>
+                        <button onClick={()=>ProductDeleteHandler(product.id)} className="delete bg-white  text-black-800 border  dark:text-black py-[1.2vh] px-[5vw]  font-bold hover:bg-red-300 dark:hover:bg-black-600">Delete</button>
                     </div>
                 </div>
             </div>
